@@ -1,7 +1,7 @@
 // src/components/MessageItem.jsx
 import React, { useContext } from "react";
 import { ChatContext } from "../context/ChatContext";
-import "../styles/global.css"
+import "../styles/global.css";
 
 const MessageItem = ({ message }) => {
   const { username, currentUser } = useContext(ChatContext);
@@ -21,6 +21,9 @@ const MessageItem = ({ message }) => {
       ? "me"
       : "other";
 
+  // Determine display name for the sender: show "Me" if message sender is current user
+  const displayName = message.sender === me ? "Me" : message.sender;
+
   // Format message display text
   let displayText;
   if (message.sender === "System") {
@@ -28,10 +31,10 @@ const MessageItem = ({ message }) => {
   } else if (isPrivate) {
     displayText =
       message.sender === me
-        ? `${message.sender} (private) to ${message.receiver}: ${message.content}`
+        ? `${displayName} (private) to ${message.receiver}: ${message.content}`
         : `From ${message.sender} (private): ${message.content}`;
   } else {
-    displayText = `${message.sender}: ${message.content}`;
+    displayText = `${displayName}: ${message.content}`;
   }
 
   return (
